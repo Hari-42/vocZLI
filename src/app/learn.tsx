@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { useState } from 'react';
 import Voci from '@/models/voci';
 
@@ -15,6 +15,7 @@ const vociList: Voci[] = [
 
 export default function LearnScreen() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [showTranslation, setShowTranslation] = useState(false);
   const currentVoci = vociList[currentIndex];
 
   return (
@@ -22,7 +23,15 @@ export default function LearnScreen() {
       <Text style={styles.progress}>{currentIndex + 1} / {vociList.length}</Text>
       <View style={styles.card}>
         <Text style={styles.term}>{currentVoci.term}</Text>
+        {showTranslation && (
+          <Text style={styles.translation}>{currentVoci.translation}</Text>
+        )}
       </View>
+      {!showTranslation && (
+        <Pressable style={styles.button} onPress={() => setShowTranslation(true)}>
+          <Text style={styles.buttonText}>Übersetzung zeigen</Text>
+        </Pressable>
+      )}
     </View>
   );
 }
@@ -56,5 +65,23 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+  translation: {
+    fontSize: 24,
+    color: '#005380',
+    marginTop: 16,
+    textAlign: 'center',
+  },
+  button: {
+    marginTop: 32,
+    backgroundColor: '#005380',
+    paddingHorizontal: 32,
+    paddingVertical: 14,
+    borderRadius: 12,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
   },
 });
