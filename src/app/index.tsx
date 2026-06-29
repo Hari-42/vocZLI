@@ -25,6 +25,11 @@ export default function HomeScreen() {
                 data={vociList}
                 keyExtractor={(item) => item.term}
                 renderItem={({ item }) => <VociItem item={item} />}
+                ListEmptyComponent={
+                    <View style={styles.empty}>
+                        <Text style={styles.emptyText}>Keine Vokabeln vorhanden</Text>
+                    </View>
+                }
             />
         </SafeAreaView>
     );
@@ -48,5 +53,12 @@ const styles = StyleSheet.create({
         marginTop: 8,
         color: '#555',
     },
-
+    empty: {
+        alignItems: 'center',
+        marginTop: 48,
+    },
+    emptyText: {
+        fontSize: 16,
+        color: '#999',
+    },
 });
