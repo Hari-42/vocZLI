@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { useState } from 'react';
+import { useRouter } from 'expo-router';
 import Voci from '@/models/voci';
 
 const vociList: Voci[] = [
@@ -14,9 +15,19 @@ const vociList: Voci[] = [
 ];
 
 export default function LearnScreen() {
+  const router = useRouter();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showTranslation, setShowTranslation] = useState(false);
   const currentVoci = vociList[currentIndex];
+
+  function handleNext() {
+    if (currentIndex + 1 >= vociList.length) {
+      router.back();
+    } else {
+      setCurrentIndex(currentIndex + 1);
+      setShowTranslation(false);
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -30,6 +41,13 @@ export default function LearnScreen() {
       {!showTranslation && (
         <Pressable style={styles.button} onPress={() => setShowTranslation(true)}>
           <Text style={styles.buttonText}>Übersetzung zeigen</Text>
+        </Pressable>
+      )}
+      {showTranslation && (
+        <Pressable style={styles.button} onPress={handleNext}>
+          <Text style={styles.buttonText}>
+            {currentIndex + 1 >= vociList.length ? 'Fertig' : 'Weiter'}
+          </Text>
         </Pressable>
       )}
     </View>
