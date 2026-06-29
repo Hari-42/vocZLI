@@ -1,6 +1,7 @@
 import { StyleSheet, View, Text, FlatList, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 import Voci from '@/models/voci';
 import VociItem from '@/components/VociItem';
 
@@ -34,8 +35,11 @@ export default function HomeScreen() {
                     </View>
                 }
             />
-            <Pressable style={styles.fab} onPress={() => router.push('/learn')}>
-                <Text style={styles.fabText}>Start</Text>
+            <Pressable
+                style={({ pressed }) => [styles.fab, { opacity: pressed ? 0.7 : 1 }]}
+                onPress={() => router.push('/learn')}
+            >
+                <Ionicons name="play" size={28} color="#fff" />
             </Pressable>
         </SafeAreaView>
     );
@@ -73,12 +77,14 @@ const styles = StyleSheet.create({
         right: 20,
         width: 60,
         height: 60,
+        borderRadius: 30,
         backgroundColor: '#005380',
         alignItems: 'center',
         justifyContent: 'center',
-    },
-    fabText: {
-        color: '#fff',
-        fontWeight: 'bold',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 6,
+        elevation: 6,
     },
 });
