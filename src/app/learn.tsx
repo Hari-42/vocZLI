@@ -1,4 +1,5 @@
 import { View, Text, StyleSheet } from 'react-native';
+import { useState } from 'react';
 import Voci from '@/models/voci';
 
 const vociList: Voci[] = [
@@ -13,6 +14,9 @@ const vociList: Voci[] = [
 ];
 
 export default function LearnScreen() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const currentVoci = vociList[currentIndex];
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Vokabeln lernen</Text>
