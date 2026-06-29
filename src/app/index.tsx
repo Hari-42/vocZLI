@@ -1,5 +1,6 @@
-import { StyleSheet, View, Text, FlatList } from 'react-native';
+import { StyleSheet, View, Text, FlatList, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useRouter } from 'expo-router';
 import Voci from '@/models/voci';
 import VociItem from '@/components/VociItem';
 
@@ -15,6 +16,8 @@ const vociList: Voci[] = [
 ];
 
 export default function HomeScreen() {
+    const router = useRouter();
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
@@ -31,6 +34,9 @@ export default function HomeScreen() {
                     </View>
                 }
             />
+            <Pressable style={styles.fab} onPress={() => router.push('/learn')}>
+                <Text style={styles.fabText}>Start</Text>
+            </Pressable>
         </SafeAreaView>
     );
 }
@@ -60,5 +66,19 @@ const styles = StyleSheet.create({
     emptyText: {
         fontSize: 16,
         color: '#999',
+    },
+    fab: {
+        position: 'absolute',
+        bottom: 20,
+        right: 20,
+        width: 60,
+        height: 60,
+        backgroundColor: '#005380',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    fabText: {
+        color: '#fff',
+        fontWeight: 'bold',
     },
 });
