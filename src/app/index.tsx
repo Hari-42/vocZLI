@@ -1,29 +1,71 @@
-import { Text, View, StyleSheet } from "react-native";
+import { StyleSheet, View, Text, FlatList } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import Voci from '@/models/voci';
 
-export default function Index() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>VocZLI</Text>
-      <Text style={styles.subtitle}>Meine Vokabel-Lern-App</Text>
-    </View>
-  );
+const vociList: Voci[] = [
+    { term: 'apple', translation: 'Apfel' },
+    { term: 'house', translation: 'Haus' },
+    { term: 'car', translation: 'Auto' },
+    { term: 'book', translation: 'Buch' },
+    { term: 'water', translation: 'Wasser' },
+    { term: 'sun', translation: 'Sonne' },
+    { term: 'dog', translation: 'Hund' },
+    { term: 'cat', translation: 'Katze' },
+];
+
+export default function HomeScreen() {
+    return (
+        <SafeAreaView style={styles.container}>
+            <View style={styles.header}>
+                <Text style={styles.title}>VocZLI</Text>
+                <Text style={styles.subtitle}>Meine Vokabel-Lern-App</Text>
+            </View>
+            <FlatList
+                data={vociList}
+                keyExtractor={(item) => item.term}
+                renderItem={({ item }) => (
+                    <View style={styles.row}>
+                        <Text style={styles.term}>{item.term}</Text>
+                        <Text style={styles.translation}>{item.translation}</Text>
+                    </View>
+                )}
+            />
+        </SafeAreaView>
+    );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
+        backgroundColor: '#fff',
+    },
+    header: {
         alignItems: 'center',
-        backgroundColor: '#f5f5f5',
+        paddingVertical: 24,
     },
     title: {
         fontSize: 36,
-        fontWeight: '700',
-        color: '#1a1a1a',
-        marginBottom: 8,
+        fontWeight: 'bold',
     },
     subtitle: {
+        fontSize: 18,
+        marginTop: 8,
+        color: '#555',
+    },
+    row: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingHorizontal: 24,
+        paddingVertical: 12,
+        borderBottomWidth: 1,
+        borderBottomColor: '#eee',
+    },
+    term: {
         fontSize: 16,
-        color: '#888',
+        fontWeight: '600',
+    },
+    translation: {
+        fontSize: 16,
+        color: '#555',
     },
 });
