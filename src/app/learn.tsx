@@ -19,7 +19,10 @@ export default function LearnScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Vokabeln lernen</Text>
+      <Text style={styles.progress}>{currentIndex + 1} / {vociList.length}</Text>
+      <View style={styles.card}>
+        <Text style={styles.term}>{currentVoci.term}</Text>
+      </View>
     </View>
   );
 }
@@ -29,10 +32,29 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 16,
+    padding: 24,
+    backgroundColor: '#f5f5f5',
   },
-  title: {
-    fontSize: 28,
+  progress: {
+    fontSize: 16,
+    color: '#555',
+    marginBottom: 24,
+  },
+  card: {
+    backgroundColor: '#fff',
+    width: '100%',
+    padding: 40,
+    borderRadius: 16,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  term: {
+    fontSize: 32,
     fontWeight: 'bold',
+    textAlign: 'center',
   },
 });
