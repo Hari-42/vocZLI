@@ -18,9 +18,13 @@ export default function LearnScreen() {
   const router = useRouter();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showTranslation, setShowTranslation] = useState(false);
+  const [correct, setCorrect] = useState(0);
+  const [wrong, setWrong] = useState(0);
   const currentVoci = vociList[currentIndex];
 
-  function handleNext() {
+  function handleNext(knew: boolean) {
+    if (knew) setCorrect(c => c + 1);
+    else setWrong(w => w + 1);
     if (currentIndex + 1 >= vociList.length) {
       router.back();
     } else {
@@ -32,6 +36,7 @@ export default function LearnScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.progress}>{currentIndex + 1} / {vociList.length}</Text>
+      <Text style={styles.stats}>✓ {correct}  ✗ {wrong}</Text>
       <View style={styles.card}>
         <Text style={styles.term}>{currentVoci.term}</Text>
         {showTranslation && (
@@ -44,11 +49,14 @@ export default function LearnScreen() {
         </Pressable>
       )}
       {showTranslation && (
-        <Pressable style={styles.button} onPress={handleNext}>
-          <Text style={styles.buttonText}>
-            {currentIndex + 1 >= vociList.length ? 'Fertig' : 'Weiter'}
-          </Text>
-        </Pressable>
+        <View style={styles.row}>
+          <Pressable style={[styles.button, styles.buttonWrong]} onPress={() => handleNext(false)}>
+            <Text style={styles.buttonText}>Nicht gewusst</Text>
+          </Pressable>
+          <Pressable style={[styles.button, styles.buttonCorrect]} onPress={() => handleNext(true)}>
+            <Text style={styles.buttonText}>Gewusst</Text>
+          </Pressable>
+        </View>
       )}
     </View>
   );
@@ -90,12 +98,30 @@ const styles = StyleSheet.create({
     marginTop: 16,
     textAlign: 'center',
   },
+  stats: {
+    fontSize: 14,
+    color: '#888',
+    marginBottom: 16,
+  },
+  row: {
+    flexDirection: 'row',
+    marginTop: 32,
+    gap: 16,
+  },
   button: {
     marginTop: 32,
     backgroundColor: '#005380',
     paddingHorizontal: 32,
     paddingVertical: 14,
     borderRadius: 12,
+  },
+  buttonCorrect: {
+    marginTop: 0,
+    backgroundColor: '#2e7d32',
+  },
+  buttonWrong: {
+    marginTop: 0,
+    backgroundColor: '#c62828',
   },
   buttonText: {
     color: '#fff',
