@@ -1,6 +1,7 @@
 import { StyleSheet, View, Text, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Voci from '@/models/voci';
+import VociItem from '@/components/VociItem';
 
 const vociList: Voci[] = [
     { term: 'apple', translation: 'Apfel' },
@@ -23,12 +24,7 @@ export default function HomeScreen() {
             <FlatList
                 data={vociList}
                 keyExtractor={(item) => item.term}
-                renderItem={({ item }) => (
-                    <View style={styles.row}>
-                        <Text style={styles.term}>{item.term}</Text>
-                        <Text style={styles.translation}>{item.translation}</Text>
-                    </View>
-                )}
+                renderItem={({ item }) => <VociItem item={item} />}
             />
         </SafeAreaView>
     );
@@ -52,20 +48,5 @@ const styles = StyleSheet.create({
         marginTop: 8,
         color: '#555',
     },
-    row: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingHorizontal: 24,
-        paddingVertical: 12,
-        borderBottomWidth: 1,
-        borderBottomColor: '#eee',
-    },
-    term: {
-        fontSize: 16,
-        fontWeight: '600',
-    },
-    translation: {
-        fontSize: 16,
-        color: '#555',
-    },
+
 });
