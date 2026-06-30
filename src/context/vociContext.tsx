@@ -26,6 +26,21 @@ export function VociProvider({ children }: { children: ReactNode }) {
   ]);
 
   useEffect(() => {
+    async function loadVocis() {
+      try {
+        const stored = await AsyncStorage.getItem(STORAGE_KEY);
+        if (stored !== null) {
+          setVociList(JSON.parse(stored));
+        }
+        console.log('Vocis geladen');
+      } catch (error) {
+        console.error('Fehler beim Laden der Vocis:', error);
+      }
+    }
+    loadVocis();
+  }, []);
+
+  useEffect(() => {
     async function saveVocis() {
       try {
         await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(vociList));
