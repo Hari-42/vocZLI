@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, FlatList, Pressable } from 'react-native';
+import { StyleSheet, View, Text, FlatList, Pressable, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -7,7 +7,7 @@ import { useVoci } from '@/context/vociContext';
 
 export default function HomeScreen() {
     const router = useRouter();
-    const { vociList } = useVoci();
+    const { vociList, isLoading } = useVoci();
 
     return (
         <SafeAreaView style={styles.container}>
@@ -15,16 +15,20 @@ export default function HomeScreen() {
                 <Text style={styles.title}>VocZLI</Text>
                 <Text style={styles.subtitle}>Meine Vokabel-Lern-App</Text>
             </View>
-            <FlatList
-                data={vociList}
-                keyExtractor={(item) => item.term}
-                renderItem={({ item }) => <VociItem item={item} />}
-                ListEmptyComponent={
-                    <View style={styles.empty}>
-                        <Text style={styles.emptyText}>Keine Vokabeln vorhanden</Text>
-                    </View>
-                }
-            />
+            {isLoading ? (
+                <ActivityIndicator size="large" color="#005380" style={styles.loading} />
+            ) : (
+                <FlatList
+                    data={vociList}
+                    keyExtractor={(item) => item.term}
+                    renderItem={({ item }) => <VociItem item={item} />}
+                    ListEmptyComponent={
+                        <View style={styles.empty}>
+                            <Text style={styles.emptyText}>Keine Vokabeln vorhanden</Text>
+                        </View>
+                    }
+                />
+            )}
             <Pressable
                 style={({ pressed }) => [styles.fab, { opacity: pressed ? 0.7 : 1 }]}
                 onPress={() => router.push('/learn')}
@@ -60,6 +64,9 @@ const styles = StyleSheet.create({
     emptyText: {
         fontSize: 16,
         color: '#999',
+    },
+    loading: {
+        marginTop: 48,
     },
     fab: {
         position: 'absolute',

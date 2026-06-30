@@ -6,6 +6,7 @@ const STORAGE_KEY = 'vocis';
 
 interface VociContextType {
   vociList: Voci[];
+  isLoading: boolean;
   addVoci: (voci: Voci) => void;
   updateVoci: (term: string, updatedVoci: Voci) => void;
   removeVoci: (term: string) => void;
@@ -24,6 +25,7 @@ export function VociProvider({ children }: { children: ReactNode }) {
     { term: 'dog', translation: 'Hund' },
     { term: 'cat', translation: 'Katze' },
   ]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function loadVocis() {
@@ -35,6 +37,8 @@ export function VociProvider({ children }: { children: ReactNode }) {
         console.log('Vocis geladen');
       } catch (error) {
         console.error('Fehler beim Laden der Vocis:', error);
+      } finally {
+        setIsLoading(false);
       }
     }
     loadVocis();
@@ -65,7 +69,7 @@ export function VociProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <VociContext.Provider value={{ vociList, addVoci, updateVoci, removeVoci }}>
+    <VociContext.Provider value={{ vociList, isLoading, addVoci, updateVoci, removeVoci }}>
       {children}
     </VociContext.Provider>
   );
