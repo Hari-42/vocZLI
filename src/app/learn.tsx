@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { View, Text, Image, StyleSheet, Pressable } from 'react-native';
 import { useState } from 'react';
 import { useRouter } from 'expo-router';
 import { useVoci } from '@/context/vociContext';
@@ -28,6 +28,13 @@ export default function LearnScreen() {
       <Text style={styles.progress}>{currentIndex + 1} / {vociList.length}</Text>
       <Text style={styles.stats}>✓ {correct}  ✗ {wrong}</Text>
       <View style={styles.card}>
+        {currentVoci.imageUri && (
+          <Image
+            source={{ uri: currentVoci.imageUri }}
+            style={styles.image}
+            resizeMode="cover"
+          />
+        )}
         <Text style={styles.term}>{currentVoci.term}</Text>
         {showTranslation && (
           <Text style={styles.translation}>{currentVoci.translation}</Text>
@@ -76,6 +83,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 8,
     elevation: 4,
+  },
+  image: {
+    width: 200,
+    height: 200,
+    borderRadius: 16,
+    marginBottom: 16,
   },
   term: {
     fontSize: 32,
