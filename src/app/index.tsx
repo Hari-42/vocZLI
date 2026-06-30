@@ -2,22 +2,12 @@ import { StyleSheet, View, Text, FlatList, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import Voci from '@/models/voci';
 import VociItem from '@/components/VociItem';
-
-const vociList: Voci[] = [
-    { term: 'apple', translation: 'Apfel' },
-    { term: 'house', translation: 'Haus' },
-    { term: 'car', translation: 'Auto' },
-    { term: 'book', translation: 'Buch' },
-    { term: 'water', translation: 'Wasser' },
-    { term: 'sun', translation: 'Sonne' },
-    { term: 'dog', translation: 'Hund' },
-    { term: 'cat', translation: 'Katze' },
-];
+import { useVoci } from '@/context/vociContext';
 
 export default function HomeScreen() {
     const router = useRouter();
+    const { vociList } = useVoci();
 
     return (
         <SafeAreaView style={styles.container}>
