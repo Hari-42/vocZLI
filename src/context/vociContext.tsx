@@ -3,6 +3,9 @@ import Voci from '../models/voci';
 
 interface VociContextType {
   vociList: Voci[];
+  addVoci: (voci: Voci) => void;
+  updateVoci: (term: string, updatedVoci: Voci) => void;
+  removeVoci: (term: string) => void;
 }
 
 const VociContext = createContext<VociContextType | undefined>(undefined);
@@ -19,8 +22,20 @@ export function VociProvider({ children }: { children: ReactNode }) {
     { term: 'cat', translation: 'Katze' },
   ]);
 
+  function addVoci(voci: Voci) {
+    setVociList(prev => [...prev, voci]);
+  }
+
+  function updateVoci(term: string, updatedVoci: Voci) {
+    setVociList(prev => prev.map(v => (v.term === term ? updatedVoci : v)));
+  }
+
+  function removeVoci(term: string) {
+    setVociList(prev => prev.filter(v => v.term !== term));
+  }
+
   return (
-    <VociContext.Provider value={{ vociList }}>
+    <VociContext.Provider value={{ vociList, addVoci, updateVoci, removeVoci }}>
       {children}
     </VociContext.Provider>
   );
