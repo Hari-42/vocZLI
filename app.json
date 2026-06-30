@@ -34,6 +34,13 @@
             "imageWidth": 76
           }
         }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Die App benötigt Zugriff auf deine Fotos, um Vokabel-Bilder auszuwählen.",
+          "cameraPermission": "Die App benötigt Zugriff auf die Kamera, um Vokabel-Bilder aufzunehmen."
+        }
       ]
     ],
     "experiments": {
