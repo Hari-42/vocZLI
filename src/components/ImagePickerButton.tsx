@@ -1,5 +1,6 @@
 import { Image, TouchableOpacity, View, Text, StyleSheet, Alert } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import { copyImageToAppDirectory } from '@/utils/imageStorage';
 
 interface ImagePickerButtonProps {
   imageUri?: string;
@@ -27,7 +28,8 @@ export default function ImagePickerButton({ imageUri, onImageSelected }: ImagePi
     });
 
     if (!result.canceled) {
-      onImageSelected(result.assets[0].uri);
+      const permanentUri = await copyImageToAppDirectory(result.assets[0].uri);
+      onImageSelected(permanentUri);
     }
   }
 
@@ -43,7 +45,8 @@ export default function ImagePickerButton({ imageUri, onImageSelected }: ImagePi
     });
 
     if (!result.canceled) {
-      onImageSelected(result.assets[0].uri);
+      const permanentUri = await copyImageToAppDirectory(result.assets[0].uri);
+      onImageSelected(permanentUri);
     }
   }
 

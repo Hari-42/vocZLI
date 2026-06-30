@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Voci from '../models/voci';
+import { deleteImage } from '../utils/imageStorage';
 
 const STORAGE_KEY = 'vocis';
 
@@ -61,11 +62,25 @@ export function VociProvider({ children }: { children: ReactNode }) {
   }
 
   function updateVoci(term: string, updatedVoci: Voci) {
-    setVociList(prev => prev.map(v => (v.term === term ? updatedVoci : v)));
+    setVociList(prev =>
+      prev.map(v => {
+        if (v.term !== term) return v;
+        if (v.imageUri && v.imageUri !== updatedVoci.imageUri) {
+          deleteImage(v.imageUri);
+        }
+        return updatedVoci;
+      })
+    );
   }
 
   function removeVoci(term: string) {
-    setVociList(prev => prev.filter(v => v.term !== term));
+    setVociList(prev => {
+      const voci = prev.find(v => v.term === term);
+      if (voci?.imageUri) {
+        deleteImage(voci.imageUri);
+      }
+      return prev.filter(v => v.term !== term);
+    });
   }
 
   return (
