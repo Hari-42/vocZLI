@@ -1,5 +1,16 @@
-import { Stack } from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
+import { Pressable } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { VociProvider } from '../context/vociContext';
+
+function AddButton() {
+  const router = useRouter();
+  return (
+    <Pressable onPress={() => router.push('/addVoci')} hitSlop={8}>
+      <Ionicons name="add" size={28} color="#fff" />
+    </Pressable>
+  );
+}
 
 export default function RootLayout() {
   return (
@@ -19,6 +30,7 @@ export default function RootLayout() {
           name="index"
           options={{
             title: 'Meine Vokabeln',
+            headerRight: () => <AddButton />,
           }}
         />
         <Stack.Screen
