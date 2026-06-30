@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { View, Text, TextInput, Pressable, StyleSheet, Alert } from 'react-native';
 import Voci from '@/models/voci';
+import ImagePickerButton from '@/components/ImagePickerButton';
 
 interface VociDetailProps {
   initialVoci?: Voci;
@@ -12,6 +13,7 @@ interface VociDetailProps {
 export default function VociDetail({ initialVoci, onSave, onCancel, onDelete }: VociDetailProps) {
   const [term, setTerm] = useState(initialVoci?.term ?? '');
   const [translation, setTranslation] = useState(initialVoci?.translation ?? '');
+  const [imageUri, setImageUri] = useState(initialVoci?.imageUri);
   const isEditMode = !!initialVoci;
 
   function handleSave() {
@@ -20,11 +22,12 @@ export default function VociDetail({ initialVoci, onSave, onCancel, onDelete }: 
       return;
     }
 
-    onSave({ term: term.trim(), translation: translation.trim() });
+    onSave({ term: term.trim(), translation: translation.trim(), imageUri });
 
     if (!isEditMode) {
       setTerm('');
       setTranslation('');
+      setImageUri(undefined);
     }
   }
 
@@ -41,6 +44,7 @@ export default function VociDetail({ initialVoci, onSave, onCancel, onDelete }: 
 
   return (
     <View style={styles.container}>
+      <ImagePickerButton imageUri={imageUri} onImageSelected={setImageUri} />
       <Text style={styles.label}>Begriff</Text>
       <TextInput
         style={styles.input}
