@@ -27,6 +27,13 @@ export default function RootLayout() {
             title: 'Vokabeln lernen',
           }}
         />
+        <Stack.Screen
+          name="addVoci"
+          options={{
+            title: 'Neue Vokabel',
+            presentation: 'modal',
+          }}
+        />
       </Stack>
     </VociProvider>
   );
