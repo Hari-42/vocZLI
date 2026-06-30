@@ -1,5 +1,8 @@
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Voci from '../models/voci';
+
+const STORAGE_KEY = 'vocis';
 
 interface VociContextType {
   vociList: Voci[];
@@ -21,6 +24,18 @@ export function VociProvider({ children }: { children: ReactNode }) {
     { term: 'dog', translation: 'Hund' },
     { term: 'cat', translation: 'Katze' },
   ]);
+
+  useEffect(() => {
+    async function saveVocis() {
+      try {
+        await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(vociList));
+        console.log('Vocis gespeichert');
+      } catch (error) {
+        console.error('Fehler beim Speichern der Vocis:', error);
+      }
+    }
+    saveVocis();
+  }, [vociList]);
 
   function addVoci(voci: Voci) {
     setVociList(prev => [...prev, voci]);
